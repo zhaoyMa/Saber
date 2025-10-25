@@ -1,0 +1,19 @@
+dataset_name: 'mbpp'
+model_path: "../llms/GSAI-ML/LLaDA-8B-Instruct"
+data_root: "./data"
+
+dataset_config:
+  data_loader: 'custom_loader'
+  loader_fn: 'mbpp_read_data'
+  load_dataset_args: { path: "mbpp/mbpp_sanitized.jsonl" }
+  split: null
+  doc_to_text_fn: "mbpp_doc_to_text"
+  extract_answer_fn: "mbpp_extract_answer"
+  output_formatter: 'humaneval'
+  problem_file: "./data/mbpp/mbpp_sanitized.jsonl"
+  problem_file_et: "./data/mbpp/MBPP_ET.jsonl"
+
+generation_args: { gen_length: 256, block_length: 256, temperature: 0.0 }
+method: 'saber'
+method_args:
+  wino: { threshold: 0.8, threshold_back: 0.9 }
