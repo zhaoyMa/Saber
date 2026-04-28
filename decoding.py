@@ -468,7 +468,7 @@ def decoding_wino(model, prompt, gen_length=256, block_length=256, temperature=0
     return x_block[:, :prompt.shape[1] + gen_length], step
 
 @torch.no_grad()
-def generate_with_saber(model, prompt,n = 2,mu = 8, gen_length=256, block_length=256, temperature=0., mask_id=126336):
+def generate_with_saber(model, prompt,n = 2,mu = 2, gen_length=256, block_length=256, temperature=0., mask_id=126336):
 
     step = 0
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long).to(model.device)

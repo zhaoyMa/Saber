@@ -1,0 +1,17 @@
+dataset_name: 'humaneval'
+model_path: "/home/mazhaoyu/projects/llms/GSAI-ML/LLaDA-8B-Instruct"
+data_root: "/home/mazhaoyu/projects/EBS/LLaDA/data"
+
+dataset_config:
+  data_loader: 'huggingface'
+  loader_fn: null
+  load_dataset_args: { path: "humaneval" }
+  split: "test"
+  doc_to_text_fn: "humaneval_doc_to_text"
+  extract_answer_fn: "humaneval_extract_answer"   
+  output_formatter: 'humaneval'
+  problem_file: "/home/mazhaoyu/projects/EBS/LLaDA/data/humaneval/HumanEval.jsonl"
+  problem_file_et: '/home/mazhaoyu/projects/EBS/LLaDA/data/humaneval/HumanEval_ET.jsonl'
+
+generation_args: { gen_length: 256, block_length: 256, temperature: 0.0 }
+method: 'saber' 

@@ -55,8 +55,8 @@ def run_single_task_evaluation(config, model, tokenizer):
     extract_answer_fn = getattr(dataset_utils, dataset_cfg.get('extract_answer_fn')) if dataset_cfg.get('extract_answer_fn') else None
     
     gen_cfg = config['generation_args']
-    # 从gen_cfg中获取num_samples并保存到单独变量
-    num_samples = gen_cfg.pop('num_samples', 1)  # 使用pop移除该参数，避免传递给生成函数
+    # Get num_samples from gen_cfg and save to a separate variable
+    num_samples = gen_cfg.pop('num_samples', 1)  # Use pop to remove this parameter to avoid passing to generation function
     method_name = config['method']
     method_params = config.get('method_args', {}).get(method_name, {})
     generation_fn = get_generation_function(method_name)
@@ -98,7 +98,7 @@ def run_single_task_evaluation(config, model, tokenizer):
         prompt = tokenizer.apply_chat_template(context, add_generation_prompt=True, tokenize=False) + trailing_prompt
         input_ids = tokenizer(prompt, return_tensors="pt").input_ids.cuda()
         
-        # 为每个样本生成num_samples个结果
+        # Generate num_samples results for each sample
         for sample_idx in range(num_samples):
             if method_name == 'remdm':
                 gen_output, steps = generate_with_remdm(model, input_ids, gen_length=256, init_unmask_ratio=0.875, unmask_k=1, loop_steps=32, temperature=0., cfg_scale=0., remasking='low_confidence', mask_id=126336, tokenizer=tokenizer, block_length=128)
@@ -108,7 +108,7 @@ def run_single_task_evaluation(config, model, tokenizer):
             
             total_steps += steps
             
-            # 为每个结果项添加sample_idx，确保唯一性
+            # Add sample_idx to each result item to ensure uniqueness
             result_item = {'completion':'', 'full_response': gen_str, 'steps': steps, 'index': i, 'sample_idx': sample_idx}
 
             if dataset_name == 'mbpp':
@@ -134,22 +134,21 @@ def run_single_task_evaluation(config, model, tokenizer):
                 temp_f.write(json.dumps(item) + "\n")
                 temp_file_path = temp_f.name
         
-        # 计算pass@k，其中k的最大值为num_samples
         k_values = [1]
         if num_samples > 1:
-            k_values.append(num_samples)  # 添加pass@num_samples
+            k_values.append(num_samples) 
         
         if dataset_name == 'humaneval':
             problem_file = config['dataset_config'].get('problem_file', "./data/humaneval/HumanEval.jsonl")
             problem_file_et = config['dataset_config'].get('problem_file_et', './data/humaneval/HumanEval_ET.jsonl')
-            # 传递k_values参数以计算多个pass@k指标
+
             final_metrics = evaluate_solution(raw_outputs, problem_file=problem_file, save_path=None, k=k_values)
             print(f"ET Evaluation...{problem_file_et}")
             final_metrics_et = evaluate_solution_et(raw_outputs, problem_file=problem_file_et, k=k_values)
         elif dataset_name == 'mbpp':
             problem_file = config['dataset_config'].get('problem_file', "./data/mbpp/mbpp_sanitized.jsonl")
             problem_file_et = config['dataset_config'].get('problem_file_et', "./data/mbpp/MBPP_ET.jsonl")
-            # 传递k参数以计算多个pass@k指标
+
             final_metrics = evaluate_functional_correctness(temp_file_path, problem_file=problem_file, is_mbpp=True, k=k_values)
             final_metrics_et = evaluate_functional_correctness(temp_file_path, problem_file=problem_file_et, is_mbpp=True, k=k_values)
         elif dataset_name == 'livecodebench':
