@@ -15,10 +15,19 @@ source saber/bin/activate
 uv pip install -r requirements.txt
 ```
 
+## Setup
+
+### 1. Download Model
+Download the LLaDA-8B-Instruct model and place it in the `models/` directory.
+You can download the model from Hugging Face.
+
+### 2. Prepare Datasets
+We provide the HumanEval, MBPP, HumanEval-ET, and MBPP-ET datasets in the `data/` directory. For LiveCodeBench, you will need to download it separately and place it in `data/livecodebench/`.
+
 ## Evaluation of Saber
-Firstly, make sure you have downloaded the model. Your model path should match the file in configs.
-Secondly, We provided the humaneval, mbpp, humaneval et, and mbpp et datasets used in our experiment. Due to GitHub's file size restrictions, if you wish to test livecodebench, you will need to download the dataset yourself. And ensure that it is on the correct path.
-Finally, execute the following command to evaluate.
+Firstly, ensure the model is placed correctly in the `models/` directory (the configs use the path `./models/LLaDA-8B-Instruct` by default).
+Secondly, verify the datasets are in the correct path.
+Finally, execute the following command to evaluate:
 ```shell
 python eval.py --config ./configs/humaneval.yaml
 ```

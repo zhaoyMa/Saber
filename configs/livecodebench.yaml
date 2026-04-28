@@ -1,6 +1,6 @@
 dataset_name: 'livecodebench'
-model_path: "/home/mazhaoyu/projects/llms/GSAI-ML/LLaDA-8B-Instruct"
-data_root: "/home/mazhaoyu/projects/EBS/LLaDA/data"
+model_path: "./models/LLaDA-8B-Instruct"
+data_root: "./data"
 
 dataset_config:
   data_loader: 'custom_loader'

@@ -1,6 +1,6 @@
 dataset_name: 'mbpp'
-model_path: "/home/mazhaoyu/projects/llms/GSAI-ML/LLaDA-8B-Instruct"
-data_root: "/home/mazhaoyu/projects/EBS/LLaDA/data"
+model_path: "./models/LLaDA-8B-Instruct"
+data_root: "./data"
 
 dataset_config:
   data_loader: 'custom_loader'
@@ -10,8 +10,8 @@ dataset_config:
   doc_to_text_fn: "mbpp_doc_to_text"
   extract_answer_fn: "mbpp_extract_answer"
   output_formatter: 'humaneval'
-  problem_file: "/home/mazhaoyu/projects/EBS/LLaDA/data/mbpp/mbpp_sanitized.jsonl"
-  problem_file_et: "/home/mazhaoyu/projects/EBS/LLaDA/data/mbpp/MBPP_ET.jsonl"
+  problem_file: "./data/mbpp/mbpp_sanitized.jsonl"
+  problem_file_et: "./data/mbpp/MBPP_ET.jsonl"
 
 generation_args: { gen_length: 256, block_length: 256, temperature: 0 }
 method: 'saber'
