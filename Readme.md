@@ -3,7 +3,7 @@
 
 Our work introduces Saber, a training-free sampling algorithm for diffusion language models that enhances code generation by adaptively accelerating inference and incorporating backtracking, thereby improving output quality and speed while narrowing the performance gap with autoregressive models.
 
-🎉 Saber has won an SAC Highlight Award at ACL'26.
+🎉 Saber has won an SAC Highlight Award at ACL'26.  
 🎉 Our work has been accepted to ACL'26 (main) 
 
 
